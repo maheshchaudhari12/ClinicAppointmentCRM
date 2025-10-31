@@ -1,0 +1,74 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# ASP.NET Core secrets
+secrets.json
+
+# Entity Framework migrations (optional)
+Migrations/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.orig
+
+# NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# Publish output
+wwwroot/
+publish/
+*.Publish.xml
+
+# Configuration files
+appsettings.Development.json
+appsettings.Local.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Node modules (if using frontend packages)
+node_modules/
+
+# npm debug log
+npm-debug.log*
+
+# Yarn lock files
+yarn.lock
+
+# Environment files
+.env
+.env.*
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Test results
+TestResults/
+
+# Resharper
+*.DotSettings.user
