@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClinicAppointmentCRM.Models
 {
@@ -14,7 +10,7 @@ namespace ClinicAppointmentCRM.Models
         [Required]
         [StringLength(50)]
         [Display(Name = "Username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -30,10 +26,15 @@ namespace ClinicAppointmentCRM.Models
         [Required]
         [EmailAddress]
         [Display(Name = "Email Address")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? LastLogin { get; set; }
 
         public virtual Admin Admin { get; set; }
         public virtual Doctor Doctor { get; set; }
@@ -44,6 +45,7 @@ namespace ClinicAppointmentCRM.Models
 
     public enum UserRole
     {
+        SuperAdmin,
         Admin,
         Doctor,
         Patient,

@@ -1,0 +1,218 @@
+﻿@using ClinicAppointmentCRM.Models.ViewModels
+@model List<DoctorViewModel>
+@{
+    Layout = "_DoctorLayout";
+    ViewData["Title"] = "Doctor Management";
+}
+
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2><i class="fas fa-user-md"></i> Doctor Management</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Doctors</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 text-right">
+            <a asp-action="Create" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add New Doctor
+            </a>
+            <a asp-action="Statistics" class="btn btn-secondary">
+                <i class="fas fa-chart-bar"></i> Statistics
+            </a>
+            <a asp-action="Export" class="btn btn-outline-primary">
+                <i class="fas fa-download"></i> Export
+            </a>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <i class="fas fa-check-circle"></i> @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+        </div>
+    }
+
+    <!-- Search and Filter -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col-md-10">
+                        <input type="text"
+                               name="searchTerm"
+                               value="@ViewBag.SearchTerm"
+                               class="form-control"
+                               placeholder="Search by name, email, phone, specialization, or username...">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Doctors Table -->
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">All Doctors (@Model.Count)</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Specialization</th>
+                                <th>Phone</th>
+                                <th>Schedule</th>
+                                <th>Appointments</th>
+                                <th>Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var doctor in Model)
+                            {
+                                <tr class="@(!doctor.IsActive ? "table-secondary" : "")">
+                                    <td>@doctor.DoctorId</td>
+                                    <td>
+                                        <strong>@doctor.Username</strong>
+                                    </td>
+                                    <td>@doctor.Email</td>
+                                    <td>
+                                        <span class="badge badge-primary">@doctor.Specialization</span>
+                                    </td>
+                                    <td>@doctor.Phone</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(doctor.AvailabilitySchedule))
+                                        {
+                                            <small class="text-muted">@doctor.AvailabilitySchedule</small>
+                                        }
+                                        else
+                                        {
+                                            <small class="text-muted">Not set</small>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info badge-pill">@doctor.TotalAppointments</span>
+                                    </td>
+                                    <td>
+                                        @if (doctor.IsActive)
+                                        {
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check-circle"></i> Active
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">
+                                                <i class="fas fa-times-circle"></i> Inactive
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (doctor.LastLogin.HasValue)
+                                        {
+                                            @doctor.LastLogin.Value.ToString("MMM dd, yyyy")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Never</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details"
+                                               asp-route-id="@doctor.DoctorId"
+                                               class="btn btn-sm btn-info"
+                                               title="View Details"
+                                               data-toggle="tooltip">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit"
+                                               asp-route-id="@doctor.DoctorId"
+                                               class="btn btn-sm btn-warning"
+                                               title="Edit"
+                                               data-toggle="tooltip">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a asp-action="Schedule"
+                                               asp-route-id="@doctor.DoctorId"
+                                               class="btn btn-sm btn-primary"
+                                               title="View Schedule"
+                                               data-toggle="tooltip">
+                                                <i class="fas fa-calendar"></i>
+                                            </a>
+                                            <button type="button"
+                                                    class="btn btn-sm btn-@(doctor.IsActive ? "secondary" : "success")"
+                                                    onclick="toggleStatus(@doctor.UserId, '@doctor.Username')"
+                                                    title="@(doctor.IsActive ? "Deactivate" : "Activate")"
+                                                    data-toggle="tooltip">
+                                                <i class="fas fa-@(doctor.IsActive ? "ban" : "check")"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center p-5">
+                    <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No doctors found</h5>
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+                    {
+                        <p>Try a different search term or <a asp-action="Index">view all doctors</a></p>
+                    }
+                    else
+                    {
+                        <a asp-action="Create" class="btn btn-success mt-3">
+                            <i class="fas fa-plus"></i> Add Your First Doctor
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Toggle Status Form (Hidden) -->
+<form id="toggleStatusForm" asp-action="ToggleStatus" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="userId" id="toggleUserId" />
+</form>
+
+@section Scripts {
+    <script>
+        function toggleStatus(userId, doctorName) {
+            if (confirm(`Are you sure you want to change the status of Dr. ${doctorName}?`)) {
+                document.getElementById('toggleUserId').value = userId;
+                document.getElementById('toggleStatusForm').submit();
+            }
+        }
+    </script>
+}

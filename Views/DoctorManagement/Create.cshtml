@@ -1,0 +1,91 @@
+﻿@model DoctorRegDto
+@{
+    Layout = "_DoctorLayout";
+    ViewData["Title"] = "Add New Doctor";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-md"></i> Add New Doctor
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Account Information -->
+                        <h5 class="border-bottom pb-2 mb-3">Account Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Username" class="font-weight-bold"></label>
+                                    <input asp-for="Username" class="form-control" placeholder="Enter username" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="font-weight-bold"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password" class="font-weight-bold"></label>
+                            <input asp-for="Password" class="form-control" placeholder="Enter password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Password must include uppercase, lowercase, number, and special character
+                            </small>
+                        </div>
+
+                        <!-- Professional Information -->
+                        <h5 class="border-bottom pb-2 mb-3 mt-4">Professional Information</h5>
+                        <div class="form-group">
+                            <label asp-for="Specialization" class="font-weight-bold"></label>
+                            <input asp-for="Specialization" class="form-control" placeholder="e.g., Cardiologist, Dermatologist" />
+                            <span asp-validation-for="Specialization" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Phone" class="font-weight-bold"></label>
+                            <input asp-for="Phone" class="form-control" placeholder="Enter 10-digit phone number" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="AvailabilitySchedule" class="font-weight-bold"></label>
+                            <textarea asp-for="AvailabilitySchedule" class="form-control" rows="3" placeholder="e.g., Mon-Fri: 9:00 AM - 5:00 PM"></textarea>
+                            <span asp-validation-for="AvailabilitySchedule" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Enter the doctor's available hours and days
+                            </small>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save"></i> Create Doctor
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

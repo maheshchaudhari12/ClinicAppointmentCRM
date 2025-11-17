@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Clinic Reception Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Reception Styles -->
+    <link rel="stylesheet" href="~/css/reception.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar sidebar-reception">
+            <div class="sidebar-header">
+                <a asp-controller="Reception" asp-action="Dashboard" class="sidebar-brand">
+                    <i class="fas fa-clinic-medical"></i>
+                    <span>Reception Desk</span>
+                </a>
+                <button type="button" id="sidebarCollapse" class="btn btn-sm">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Reception Profile -->
+            <div class="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar reception-avatar">
+                        @{
+                            var username = User.Identity.Name ?? "Reception";
+                            var initial = username.Substring(0, 1).ToUpper();
+                        }
+                        <span>@initial</span>
+                    </div>
+                    <div class="user-details">
+                        <h6>@username</h6>
+                        <small>Receptionist</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <ul class="list-unstyled components">
+                <li class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Dashboard" ? "active" : "")">
+                    <a asp-controller="Reception" asp-action="Dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- Appointments -->
+                <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "ReceptionAppointments" ? "active" : "")">
+                    <a href="#appointmentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Appointments</span>
+                        <span class="badge badge-warning ml-auto">8</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="appointmentSubmenu">
+                        <li>
+                            <a asp-controller="ReceptionAppointments" asp-action="Schedule">
+                                <i class="fas fa-calendar-plus"></i> Schedule New
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionAppointments" asp-action="Today">
+                                <i class="fas fa-calendar-day"></i> Today's Appointments
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionAppointments" asp-action="Upcoming">
+                                <i class="fas fa-calendar-check"></i> Upcoming
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionAppointments" asp-action="Pending">
+                                <i class="fas fa-clock"></i> Pending Approval
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionAppointments" asp-action="All">
+                                <i class="fas fa-list"></i> All Appointments
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Patient Registration -->
+                <li>
+                    <a href="#patientSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Patients</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="patientSubmenu">
+                        <li>
+                            <a asp-controller="ReceptionPatients" asp-action="Register">
+                                <i class="fas fa-plus"></i> Register New Patient
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionPatients" asp-action="Search">
+                                <i class="fas fa-search"></i> Search Patient
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionPatients" asp-action="CheckIn">
+                                <i class="fas fa-sign-in-alt"></i> Patient Check-In
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionPatients" asp-action="All">
+                                <i class="fas fa-list"></i> All Patients
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Billing -->
+                <li>
+                    <a href="#billingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>Billing</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="billingSubmenu">
+                        <li>
+                            <a asp-controller="ReceptionBilling" asp-action="Create">
+                                <i class="fas fa-plus"></i> Create Bill
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionBilling" asp-action="Pending">
+                                <i class="fas fa-clock"></i> Pending Bills
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionBilling" asp-action="Payments">
+                                <i class="fas fa-credit-card"></i> Receive Payment
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionBilling" asp-action="All">
+                                <i class="fas fa-list"></i> All Bills
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Queue Management -->
+                <li>
+                    <a asp-controller="Reception" asp-action="Queue">
+                        <i class="fas fa-users"></i>
+                        <span>Waiting Queue</span>
+                        <span class="badge badge-info ml-auto">12</span>
+                    </a>
+                </li>
+
+                <!-- Doctors -->
+                <li>
+                    <a asp-controller="Reception" asp-action="Doctors">
+                        <i class="fas fa-user-md"></i>
+                        <span>Doctors Schedule</span>
+                    </a>
+                </li>
+
+                <!-- Reports -->
+                <li>
+                    <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="reportsSubmenu">
+                        <li>
+                            <a asp-controller="ReceptionReports" asp-action="Daily">
+                                <i class="fas fa-calendar-day"></i> Daily Report
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionReports" asp-action="Appointments">
+                                <i class="fas fa-calendar-check"></i> Appointment Report
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ReceptionReports" asp-action="Revenue">
+                                <i class="fas fa-dollar-sign"></i> Revenue Report
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Divider -->
+                <li class="sidebar-divider"></li>
+
+                <!-- Messages -->
+                <li>
+                    <a asp-controller="Reception" asp-action="Messages">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <span class="badge badge-success ml-auto">3</span>
+                    </a>
+                </li>
+
+                <!-- Profile & Settings -->
+                <li>
+                    <a asp-controller="Reception" asp-action="Profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="Reception" asp-action="Settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+
+                <!-- Logout -->
+                <li>
+                    <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Top Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white top-navbar">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapseTop" class="btn btn-light">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="ml-auto d-flex align-items-center">
+                        <!-- Quick Stats -->
+                        <div class="quick-stats d-none d-lg-flex mr-4">
+                            <div class="stat-item">
+                                <i class="fas fa-users text-primary"></i>
+                                <span class="ml-2">Waiting: <strong>12</strong></span>
+                            </div>
+                            <div class="stat-item ml-3">
+                                <i class="fas fa-calendar-day text-success"></i>
+                                <span class="ml-2">Today: <strong>45</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions d-none d-lg-flex mr-4">
+                            <a asp-controller="ReceptionAppointments" asp-action="Schedule" class="btn btn-sm btn-primary mr-2">
+                                <i class="fas fa-calendar-plus"></i> New Appointment
+                            </a>
+                            <a asp-controller="ReceptionPatients" asp-action="CheckIn" class="btn btn-sm btn-success">
+                                <i class="fas fa-sign-in-alt"></i> Check-In
+                            </a>
+                        </div>
+
+                        <!-- Notifications -->
+                        <div class="dropdown mr-3">
+                            <button class="btn btn-light position-relative" type="button" id="notificationDropdown" data-toggle="dropdown">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge badge-danger notification-badge">5</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                <div class="dropdown-header">
+                                    <strong>Notifications</strong>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item notification-item" href="#">
+                                    <i class="fas fa-user-plus text-success"></i>
+                                    <div>
+                                        <strong>New Patient Registered</strong>
+                                        <small class="text-muted">John Doe - ID: 1234</small>
+                                        <small class="text-muted d-block">2 mins ago</small>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item notification-item" href="#">
+                                    <i class="fas fa-clock text-warning"></i>
+                                    <div>
+                                        <strong>Appointment Pending</strong>
+                                        <small class="text-muted">Requires approval</small>
+                                        <small class="text-muted d-block">10 mins ago</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- User Menu -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown">
+                                <i class="fas fa-user-tie"></i>
+                                <span class="d-none d-md-inline">@User.Identity.Name</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-header">
+                                    <strong>@User.Identity.Name</strong>
+                                    <small class="text-muted d-block">Receptionist</small>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="Reception" asp-action="Profile">
+                                    <i class="fas fa-user"></i> My Profile
+                                </a>
+                                <a class="dropdown-item" asp-controller="Reception" asp-action="Settings">
+                                    <i class="fas fa-cog"></i> Settings
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="main-content">
+                @RenderBody()
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>&copy; @DateTime.Now.Year - Clinic Appointment CRM</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p>Reception Portal v1.0</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Logout Form -->
+    <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" style="display: none;">
+        @Html.AntiForgeryToken()
+    </form>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

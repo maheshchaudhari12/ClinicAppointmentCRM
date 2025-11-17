@@ -1,26 +1,42 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using ClinicAppointmentCRM.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
-namespace ClinicAppointmentCRM.Controllers;
-
-public class HomeController : Controller
+namespace ClinicAppointmentCRM.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous] // ✅ Entire controller is public
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly ILogger<HomeController> _logger;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        /// <summary>
+        /// Home page - Public
+        /// </summary>
+        public IActionResult Index()
+        {
+            // Check if user is authenticated
+            ViewBag.IsAuthenticated = User.Identity?.IsAuthenticated ?? false;
+            if (ViewBag.IsAuthenticated)
+            {
+                ViewBag.Username = User.Identity?.Name;
+                ViewBag.Role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            }
+
+            return View();
+        }
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

@@ -1,0 +1,168 @@
+@{
+    ViewData["Title"] = "Patient Registration";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Patient Registration</h3>
+                </div>
+                <div class="card-body">
+                    <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+                    <div id="successAlert" class="alert alert-success d-none" role="alert"></div>
+
+                    <form id="patientRegForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username *</label>
+                                <input type="text" class="form-control" id="username" required>
+                                <div class="form-text">4-50 characters, letters, numbers, and underscores only</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password *</label>
+                                <input type="password" class="form-control" id="password" required>
+                                <div class="form-text">Min 6 chars, include uppercase, lowercase, number, special char</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fullName" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="phone" pattern="[6-9]\d{9}" required>
+                                <div class="form-text">10 digits starting with 6, 7, 8, or 9</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="dob" class="form-label">Date of Birth *</label>
+                                <input type="date" class="form-control" id="dob" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="gender" class="form-label">Gender *</label>
+                                <select class="form-control" id="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address">
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="registerBtn">
+                                <span id="registerBtnText">Register</span>
+                                <span id="registerSpinner" class="spinner-border spinner-border-sm d-none"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+                        <p>Already have an account? <a href="/Account/Login">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/auth-service.js"></script>
+    <script>
+        document.getElementById('patientRegForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorAlert = document.getElementById('errorAlert');
+            const successAlert = document.getElementById('successAlert');
+            const registerBtn = document.getElementById('registerBtn');
+            const registerBtnText = document.getElementById('registerBtnText');
+            const registerSpinner = document.getElementById('registerSpinner');
+
+            // Hide alerts
+            errorAlert.classList.add('d-none');
+            successAlert.classList.add('d-none');
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                errorAlert.textContent = 'Passwords do not match';
+                errorAlert.classList.remove('d-none');
+                return;
+            }
+
+            const patientData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: password,
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                dob: document.getElementById('dob').value,
+                gender: document.getElementById('gender').value,
+                address: document.getElementById('address').value
+            };
+
+            // Show loading
+            registerBtn.disabled = true;
+            registerBtnText.classList.add('d-none');
+            registerSpinner.classList.remove('d-none');
+
+            try {
+                const result = await authService.registerPatient(patientData);
+
+                if (result.success) {
+                    successAlert.textContent = result.message + ' Redirecting...';
+                    successAlert.classList.remove('d-none');
+                    
+                    setTimeout(() => {
+                        window.location.href = '/Patient/Dashboard';
+                    }, 1500);
+                }
+            } catch (error) {
+                let errorMessage = 'Registration failed. Please try again.';
+                
+                if (error.errors) {
+                    // Validation errors
+                    errorMessage = Object.values(error.errors).flat().join(', ');
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                errorAlert.textContent = errorMessage;
+                errorAlert.classList.remove('d-none');
+            } finally {
+                registerBtn.disabled = false;
+                registerBtnText.classList.remove('d-none');
+                registerSpinner.classList.add('d-none');
+            }
+        });
+    </script>
+}

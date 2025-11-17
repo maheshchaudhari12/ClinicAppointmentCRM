@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "Access Denied";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg glass-card text-center">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-shield-x text-danger" style="font-size: 5rem;"></i>
+                    </div>
+
+                    <h1 class="display-4 text-danger mb-3">Access Denied</h1>
+
+                    <p class="lead mb-4">
+                        You don't have permission to access this resource.
+                    </p>
+
+                    <div class="alert alert-warning" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Error Code: 403</strong> - Forbidden
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            You attempted to access: <code>@returnUrl</code>
+                        </div>
+                    }
+
+                    <hr class="my-4">
+
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Go Back
+                        </a>
+
+                        <a href="/" class="btn btn-primary">
+                            <i class="bi bi-house-door"></i> Go Home
+                        </a>
+
+                        <a href="/Account/Login" class="btn btn-success" id="loginLink">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+
+                        <a href="#" class="btn btn-info d-none" id="dashboardLink">
+                            <i class="bi bi-speedometer2"></i> My Dashboard
+                        </a>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="text-muted mb-0">
+                            <small>
+                                If you believe this is an error, please contact the administrator.
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Helpful Information Card -->
+            <div class="card mt-4 glass-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightbulb"></i> What can I do?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            Check if you're logged in with the correct account
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            Verify you have the necessary permissions for this page
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            Contact your system administrator if access is required
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            Return to your dashboard and navigate from there
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/auth-service.js"></script>
+    <script>
+        // Check if user is authenticated
+        if (authService.isAuthenticated()) {
+            const userInfo = authService.getUserInfo();
+            
+            // Hide login link, show dashboard link
+            document.getElementById('loginLink').classList.add('d-none');
+            
+            const dashboardLink = document.getElementById('dashboardLink');
+            dashboardLink.classList.remove('d-none');
+            
+            const roleRoute = userInfo.role === 'Admin' ? 'SuperAdmin' : userInfo.role;
+            dashboardLink.href = `/${roleRoute}/Dashboard`;
+        }
+    </script>
+}

@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClinicAppointmentCRM.Models
 {
@@ -17,11 +12,14 @@ namespace ClinicAppointmentCRM.Models
 
         [Required, StringLength(100)]
         [Display(Name = "Full Name")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         [Phone]
         [Display(Name = "Phone Number")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
+
+        public string? Email { get; set; }
+
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }

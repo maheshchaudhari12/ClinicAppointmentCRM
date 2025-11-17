@@ -1,0 +1,82 @@
+﻿@model ReceptionRegDto
+@{
+    Layout = "_ReceptionLayout";
+    ViewData["Title"] = "Add New Receptionist";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-plus"></i> Add New Receptionist
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Account Information -->
+                        <h5 class="border-bottom pb-2 mb-3">Account Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Username" class="font-weight-bold"></label>
+                                    <input asp-for="Username" class="form-control" placeholder="Enter username" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="font-weight-bold"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password" class="font-weight-bold"></label>
+                            <input asp-for="Password" class="form-control" placeholder="Enter password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Password must include uppercase, lowercase, number, and special character
+                            </small>
+                        </div>
+
+                        <!-- Personal Information -->
+                        <h5 class="border-bottom pb-2 mb-3 mt-4">Personal Information</h5>
+                        <div class="form-group">
+                            <label asp-for="FullName" class="font-weight-bold"></label>
+                            <input asp-for="FullName" class="form-control" placeholder="Enter full name" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Phone" class="font-weight-bold"></label>
+                            <input asp-for="Phone" class="form-control" placeholder="Enter 10-digit phone number" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-info btn-lg">
+                                <i class="fas fa-save"></i> Create Receptionist
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

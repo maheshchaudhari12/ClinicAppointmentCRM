@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\workSpace\\dotnet\\ClinicAppointmentCRM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2B87ADDE-5038-2290-915A-1900A35B513F}|ClinicAppointmentCRM.csproj|e:\\workspace\\dotnet\\clinicappointmentcrm\\views\\shared\\_patientlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2B87ADDE-5038-2290-915A-1900A35B513F}|ClinicAppointmentCRM.csproj|solutionrelative:views\\shared\\_patientlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B87ADDE-5038-2290-915A-1900A35B513F}|ClinicAppointmentCRM.csproj|e:\\workspace\\dotnet\\clinicappointmentcrm\\views\\shared\\_doctorlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2B87ADDE-5038-2290-915A-1900A35B513F}|ClinicAppointmentCRM.csproj|solutionrelative:views\\shared\\_doctorlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_PatientLayout.cshtml",
+              "DocumentMoniker": "E:\\workSpace\\dotnet\\ClinicAppointmentCRM\\Views\\Shared\\_PatientLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_PatientLayout.cshtml",
+              "ToolTip": "E:\\workSpace\\dotnet\\ClinicAppointmentCRM\\Views\\Shared\\_PatientLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_PatientLayout.cshtml",
+              "ViewState": "AgIAACYAAAAAAAAAAIAwwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-06T07:00:46.786Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_DoctorLayout.cshtml",
+              "DocumentMoniker": "E:\\workSpace\\dotnet\\ClinicAppointmentCRM\\Views\\Shared\\_DoctorLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_DoctorLayout.cshtml",
+              "ToolTip": "E:\\workSpace\\dotnet\\ClinicAppointmentCRM\\Views\\Shared\\_DoctorLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_DoctorLayout.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAC8AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-06T06:58:20.796Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

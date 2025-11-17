@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ClinicAppointmentCRM.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +8,6 @@ namespace ClinicAppointmentCRM.Data
         public ClinicDbContext(DbContextOptions<ClinicDbContext> options) : base(options)
         {
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -57,18 +52,37 @@ namespace ClinicAppointmentCRM.Data
                 .WithMany(admin => admin.ActivatedBy)
                 .HasForeignKey(log => log.ActivatedByAdminId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // pricption relations
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Appointment)
+                .WithMany(a => a.Prescriptions)
+                .HasForeignKey(p => p.AppointmentId)
+                .OnDelete(DeleteBehavior.Cascade); // keep cascade if safe
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Doctor)
+                .WithMany(d => d.Prescriptions)
+                .HasForeignKey(p => p.DoctorId)
+                .OnDelete(DeleteBehavior.NoAction); // prevent cascade
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Patient)
+                .WithMany(pt => pt.Prescriptions)
+                .HasForeignKey(p => p.PatientId)
+                .OnDelete(DeleteBehavior.Restrict); // prevent cascade
         }
 
 
-        public DbSet<Models.Appointment> Appointments { get; set; }
-        public DbSet<Models.Prescription> Prescriptions { get; set; }
-        public DbSet<Models.Patient> Patients { get; set; }
-        public DbSet<Models.Doctor> Doctors { get; set; }
-        public DbSet<Models.Reception> Receptions { get; set; }
-        public DbSet<Models.UserLogin> UserLogins { get; set; }
-        public DbSet<Models.Notification> Notifications { get; set; }
-        public DbSet<Models.Admin> Admins { get; set; }
-        public DbSet<Models.AdminActivationLog> AdminActivationLogs { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Reception> Receptions { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<AdminActivationLog> AdminActivationLogs { get; set; }
 
     }
 }

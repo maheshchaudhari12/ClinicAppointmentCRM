@@ -1,0 +1,114 @@
+﻿@using ClinicAppointmentCRM.Models.ViewModels
+<!-- Views/PatientManagement/Details.cshtml -->
+@model PatientViewModel
+@{
+    Layout = "_PatientLayout";
+    ViewData["Title"] = "Patient Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user"></i> Patient Details
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Patient ID:</dt>
+                        <dd class="col-sm-8">@Model.PatientId</dd>
+
+                        <dt class="col-sm-4">Full Name:</dt>
+                        <dd class="col-sm-8">@Model.FullName</dd>
+
+                        <dt class="col-sm-4">Username:</dt>
+                        <dd class="col-sm-8">@@Model.Username</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+
+                        <dt class="col-sm-4">Phone:</dt>
+                        <dd class="col-sm-8">@Model.Phone</dd>
+
+                        <dt class="col-sm-4">Date of Birth:</dt>
+                        <dd class="col-sm-8">@Model.DOB.ToString("MMMM dd, yyyy")</dd>
+
+                        <dt class="col-sm-4">Age:</dt>
+                        <dd class="col-sm-8">@Model.Age years</dd>
+
+                        <dt class="col-sm-4">Gender:</dt>
+                        <dd class="col-sm-8">@Model.Gender</dd>
+
+                        <dt class="col-sm-4">Address:</dt>
+                        <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Address) ? "Not provided" : Model.Address)</dd>
+
+                        <dt class="col-sm-4">Status:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge badge-success badge-lg">
+                                    <i class="fas fa-check-circle"></i> Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger badge-lg">
+                                    <i class="fas fa-times-circle"></i> Inactive
+                                </span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">Total Appointments:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge badge-info badge-lg">@Model.TotalAppointments</span>
+                        </dd>
+
+                        <dt class="col-sm-4">Last Login:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.LastLogin.HasValue)
+                            {
+                                @Model.LastLogin.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                            }
+                            else
+                            {
+                                <span class="text-muted">Never logged in</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Edit" asp-route-id="@Model.PatientId" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar-alt"></i> View Appointments
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-prescription"></i> View Prescriptions
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-medical"></i> Medical History
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar-plus"></i> Schedule Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

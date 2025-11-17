@@ -1,8 +1,126 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+    ViewData["Title"] = "ClinicCRM Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Mahesh</h1>
+<!-- Hero Section -->
+<section class="glass-effect text-center py-5 rounded-4 shadow-lg my-4">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-3">
+            <i class="bi bi-heart-pulse-fill text-danger"></i> Welcome to ClinicCRM
+        </h1>
+        <p class="lead text-white-50">Your all-in-one solution for managing appointments, prescriptions, and clinic operations.</p>
+        <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+            <a class="btn btn-outline-light btn-lg" href="/Account/Login">
+                <i class="bi bi-key-fill"></i> SuperAdmin Login
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="/Account/Login">
+                <i class="bi bi-key-fill"></i> Admin Login
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="/Account/Login">
+                <i class="bi bi-prescription2"></i> Doctor Login
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="/Account/Login">
+                <i class="bi bi-person-fill"></i> Patient Login
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="/Account/Login">
+                <i class="bi bi-bell-fill"></i> Reception Login
+            </a>
+        </div>
+    </div>
+</section>
 
-</div>
+<!-- Features Section -->
+<section class="container py-5">
+    <h2 class="text-center mb-5 text-white">
+        <i class="bi bi-star-fill text-warning"></i> Key Features
+    </h2>
+    <div class="row text-center g-4">
+        <div class="col-md-3">
+            <div class="card h-100 shadow-lg glass-effect">
+                <div class="card-body">
+                    <i class="bi bi-calendar-check display-4 text-primary mb-3"></i>
+                    <h5 class="card-title text-white">Appointment Scheduling</h5>
+                    <p class="card-text text-white-50">Book, manage, and track appointments with ease across all roles.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 shadow-lg glass-effect">
+                <div class="card-body">
+                    <i class="bi bi-capsule display-4 text-success mb-3"></i>
+                    <h5 class="card-title text-white">Prescription Management</h5>
+                    <p class="card-text text-white-50">Doctors can issue and patients can view prescriptions securely.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 shadow-lg glass-effect">
+                <div class="card-body">
+                    <i class="bi bi-envelope-fill display-4 text-info mb-3"></i>
+                    <h5 class="card-title text-white">Email Notifications</h5>
+                    <p class="card-text text-white-50">Automated alerts for appointments, prescriptions, and system updates.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 shadow-lg glass-effect">
+                <div class="card-body">
+                    <i class="bi bi-graph-up display-4 text-warning mb-3"></i>
+                    <h5 class="card-title text-white">Admin Dashboard</h5>
+                    <p class="card-text text-white-50">Monitor clinic activity, manage users, and generate reports.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="About" class="container my-5">
+    <div class="glass-effect text-center rounded-4 p-5 shadow-lg">
+        <h2 class="text-white mb-4">
+            <i class="bi bi-info-circle-fill text-info"></i> About ClinicCRM
+        </h2>
+        <p class="text-white-50 mx-auto" style="max-width: 800px;">
+            ClinicCRM is a modern healthcare management system designed to streamline clinic operations.
+            It empowers administrators, doctors, receptionists, and patients with tools to manage appointments, prescriptions, and communication efficiently.
+            Built with security and scalability in mind, ClinicCRM ensures a smooth experience for clinics of all sizes.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Us Section -->
+<section id="Contact" class="glass-effect py-5 rounded-4 shadow-lg my-5">
+    <div class="container">
+        <h2 class="text-center mb-4 text-white">
+            <i class="bi bi-chat-dots-fill text-primary"></i> Contact Us
+        </h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-white">
+                            <i class="bi bi-person"></i> Your Name
+                        </label>
+                        <input type="text" class="form-control glass-effect text-white" id="name" placeholder="Enter your name" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-white">
+                            <i class="bi bi-envelope"></i> Your Email
+                        </label>
+                        <input type="email" class="form-control glass-effect text-white" id="email" placeholder="Enter your email" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label text-white">
+                            <i class="bi bi-chat-left-text"></i> Message
+                        </label>
+                        <textarea class="form-control glass-effect text-white" id="message" rows="4" placeholder="Your message..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-light btn-lg w-100">
+                        <i class="bi bi-send-fill"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

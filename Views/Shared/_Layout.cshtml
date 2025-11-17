@@ -2,49 +2,252 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ClinicAppointmentCRM</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ClinicAppointmentCRM.styles.css" asp-append-version="true" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="ClinicCRM - Your all-in-one solution for managing appointments, prescriptions, and clinic operations."/>
+    <meta name="keywords" content="clinic, CRM, healthcare, appointments, prescriptions"/>
+    <title>@ViewData["Title"] - Clinic CRM</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ClinicAppointmentCRM</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+<!-- Snowflake Loader Background -->
+<div class="loader">
+    <div class="loader-icon-1">&#10052;</div>
+</div>
+
+<!-- Animated Background -->
+<div class="main">
+    <div class="initial-snow">
+        @for (int i = 0; i < 50; i++)
+        {
+            <div class="snow">&#10052;</div>
+        }
+    </div>
+</div>
+
+<!-- Header OUTSIDE content-wrapper -->
+<header class="navbar navbar-expand-lg shadow-sm header-glass sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand brand-snow" href="/">
+            <i class="bi bi-hospital"></i> ClinicCRM
+        </a>
+
+        <button class="navbar-toggler toggler-glass" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between header-glass-menu" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-glass active" aria-current="page" href="/">
+                        <i class="bi bi-house-door"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-glass" aria-current="page" href="#About">
+                        <i class="bi bi-info-circle"></i> About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-glass" aria-current="page" href="#Contact">
+                        <i class="bi bi-envelope"></i> Contact
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Authentication Navigation -->
+            <ul class="navbar-nav ms-3" id="authNavigation">
+                <!-- Guest Navigation (Default) -->
+                <li class="nav-item" id="guestNav">
+                    <a class="nav-link nav-link-glass" href="/Account/Login">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item dropdown" id="registerDropdown">
+                    <a class="nav-link nav-link-glass dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-plus"></i> Register
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-glass">
+                        <li>
+                            <a class="dropdown-item dropdown-item-glass" href="/Patient/Register">
+                                <i class="bi bi-person"></i> As Patient
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item dropdown-item-glass" href="/Doctor/Register">
+                                <i class="bi bi-heart-pulse"></i> As Doctor
+                            </a>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+                </li>
 
-    <footer class="border-top footer text-muted">
+                <!-- Authenticated User Navigation (Hidden by default) -->
+                <li class="nav-item dropdown d-none" id="userDropdown">
+                    <a class="nav-link nav-link-glass dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <span id="userName">User</span>
+                        <span class="badge bg-primary ms-1" id="userRole"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-glass">
+                        <li>
+                            <a class="dropdown-item dropdown-item-glass" href="#" id="dashboardLink">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item dropdown-item-glass" href="#" id="profileLink">
+                                <i class="bi bi-person-badge"></i> Profile
+                            </a>
+                        </li>
+                        <li id="appointmentsLink">
+                            <a class="dropdown-item dropdown-item-glass" href="#">
+                                <i class="bi bi-calendar-check"></i> Appointments
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item dropdown-item-glass text-danger" href="#" onclick="handleLogout(event)">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrapper">
+
+    <!-- Main Content -->
+    <main id="Home" role="main">
         <div class="container">
-            &copy; 2025 - ClinicAppointmentCRM - Privicy
+            @RenderBody()
+        </div>
+    </main>
+
+
+    <!-- Footer with Custom Classes -->
+    <footer class="text-center py-3 mt-5 footer-glass">
+        <div class="container">
+            <p class="mb-0 footer-text-light">
+                © @DateTime.Now.Year ClinicCRM. All rights reserved.
+            </p>
+            <small class="footer-text-secondary">
+                <i class="bi bi-envelope footer-icon-glass"></i>
+                <a href="mailto:support@cliniccrm.com" class="footer-link-glass">support@cliniccrm.com</a> |
+                <i class="bi bi-shield-check footer-icon-glass"></i>
+                <a href="#" class="footer-link-glass">Privacy Policy</a>
+            </small>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/auth-service.js"></script>
+
+<!-- Authentication Navigation Script -->
+<script>
+        // Update navigation based on authentication status
+        function updateNavigation() {
+            const guestNav = document.getElementById('guestNav');
+            const registerDropdown = document.getElementById('registerDropdown');
+            const userDropdown = document.getElementById('userDropdown');
+            const userName = document.getElementById('userName');
+            const userRole = document.getElementById('userRole');
+            const dashboardLink = document.getElementById('dashboardLink');
+            const profileLink = document.getElementById('profileLink');
+            const appointmentsLink = document.getElementById('appointmentsLink');
+
+            if (authService.isAuthenticated()) {
+                const userInfo = authService.getUserInfo();
+                
+                // Hide guest navigation
+                guestNav.classList.add('d-none');
+                registerDropdown.classList.add('d-none');
+                
+                // Show user dropdown
+                userDropdown.classList.remove('d-none');
+                
+                // Set user information
+                userName.textContent = userInfo.username;
+                userRole.textContent = userInfo.role;
+                
+                // Set role-based badge color
+                userRole.classList.remove('bg-primary', 'bg-success', 'bg-info', 'bg-warning');
+                switch(userInfo.role) {
+                    case 'Admin':
+                        userRole.classList.add('bg-danger');
+                        break;
+                    case 'Doctor':
+                        userRole.classList.add('bg-success');
+                        break;
+                    case 'Patient':
+                        userRole.classList.add('bg-primary');
+                        break;
+                    case 'Reception':
+                        userRole.classList.add('bg-info');
+                        break;
+                }
+                
+                // Set role-based links
+                const roleRoute = userInfo.role === 'Admin' ? 'SuperAdmin' : userInfo.role;
+                dashboardLink.href = `/${roleRoute}/Dashboard`;
+                profileLink.href = `/${roleRoute}/Profile`;
+                
+                // Show/hide appointments based on role
+                if (userInfo.role === 'Patient' || userInfo.role === 'Doctor') {
+                    appointmentsLink.classList.remove('d-none');
+                    appointmentsLink.querySelector('a').href = `/${roleRoute}/Appointments`;
+                } else {
+                    appointmentsLink.classList.add('d-none');
+                }
+            } else {
+                // Show guest navigation
+                guestNav.classList.remove('d-none');
+                registerDropdown.classList.remove('d-none');
+                
+                // Hide user dropdown
+                userDropdown.classList.add('d-none');
+            }
+        }
+
+        // Logout handler
+        function handleLogout(event) {
+            event.preventDefault();
+            
+            // Show confirmation
+            if (confirm('Are you sure you want to logout?')) {
+                authService.logout();
+            }
+        }
+
+        // Initialize navigation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavigation();
+        });
+
+        // Also update on storage change (for multi-tab support)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'jwt_token') {
+                updateNavigation();
+            }
+        });
+    </script>
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

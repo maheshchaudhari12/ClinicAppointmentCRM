@@ -1,0 +1,132 @@
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Super Admin Panel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/superadmin.css" asp-append-version="true" />
+  
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a class="sidebar-brand" href="/SuperAdmin/Index">
+            <i class="fas fa-user-shield"></i>
+            <span class="sidebar-brand-text">Super Admin</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/Index">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-link-text">Home</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/RegisterAdmin">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="nav-link-text">Register Admins</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/ViewAdmins">
+                    <i class="fas fa-users-cog"></i>
+                    <span class="nav-link-text">View Admins</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/ViewDoctors">
+                    <i class="fas fa-user-md"></i>
+                    <span class="nav-link-text">View Doctors</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/ViewPatients">
+                    <i class="fas fa-procedures"></i>
+                    <span class="nav-link-text">View Patients</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/SuperAdmin/ViewReceptions">
+                    <i class="fas fa-hospital-user"></i>
+                    <span class="nav-link-text">View Receptions</span>
+                </a>
+            </li>
+
+            <li class="nav-item mt-4">
+                <a class="nav-link" href="/Account/Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-link-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Topbar -->
+    <nav class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="topbar-user">
+            <span class="user-name d-none d-sm-inline">Super Admin</span>
+            <div class="dropdown">
+                <a class="user-avatar dropdown-toggle" href="#" role="button" id="userDropdown" 
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li>
+                        <a class="dropdown-item" href="/SuperAdmin/Profile">
+                            <i class="fas fa-user-circle me-2"></i>Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/SuperAdmin/Settings">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="/Account/Logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <span>&copy; @DateTime.Now.Year  All rights reserved.</span>
+        </div>
+    </footer>
+
+   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/superadmin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

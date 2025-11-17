@@ -1,0 +1,161 @@
+﻿@using ClinicAppointmentCRM.Models.ViewModels
+@model DoctorViewModel
+@{
+    Layout = "_DoctorLayout";
+    ViewData["Title"] = "Doctor Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-md"></i> Doctor Details
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Doctor ID:</dt>
+                        <dd class="col-sm-8">@Model.DoctorId</dd>
+
+                        <dt class="col-sm-4">Username:</dt>
+                        <dd class="col-sm-8">@@Model.Username</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+
+                        <dt class="col-sm-4">Phone:</dt>
+                        <dd class="col-sm-8">@Model.Phone</dd>
+
+                        <dt class="col-sm-4">Specialization:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge badge-primary badge-lg">@Model.Specialization</span>
+                        </dd>
+
+                        <dt class="col-sm-4">Availability Schedule:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.AvailabilitySchedule))
+                            {
+                                @Model.AvailabilitySchedule
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not set</span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">Status:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge badge-success badge-lg">
+                                    <i class="fas fa-check-circle"></i> Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger badge-lg">
+                                    <i class="fas fa-times-circle"></i> Inactive
+                                </span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">Total Appointments:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge badge-info badge-lg">@Model.TotalAppointments</span>
+                        </dd>
+
+                        <dt class="col-sm-4">Last Login:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.LastLogin.HasValue)
+                            {
+                                @Model.LastLogin.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                            }
+                            else
+                            {
+                                <span class="text-muted">Never logged in</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Edit" asp-route-id="@Model.DoctorId" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="Schedule" asp-route-id="@Model.DoctorId" class="btn btn-primary">
+                        <i class="fas fa-calendar"></i> View Schedule
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow mb-3">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#resetPasswordModal">
+                        <i class="fas fa-key"></i> Reset Password
+                    </button>
+                    <a asp-action="Appointments" asp-route-id="@Model.DoctorId" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar-alt"></i> View Appointments
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-prescription"></i> View Prescriptions
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-clock"></i> Activity Log
+                    </a>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h2 class="text-success">@Model.TotalAppointments</h2>
+                        <p class="text-muted">Total Appointments</p>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <p class="mb-1"><strong>Specialization</strong></p>
+                        <span class="badge badge-primary">@Model.Specialization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title">Reset Password</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form asp-action="ResetPassword" method="post">
+                <input type="hidden" name="id" value="@Model.DoctorId" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" required minlength="6" />
+                        <small class="form-text text-muted">Minimum 6 characters</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
